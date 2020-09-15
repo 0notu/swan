@@ -1,5 +1,3 @@
-const https = require('https')
-
 function outside_req(host, method, endpoint, content) {
     content ? content = JSON.stringify(content) : content = null;
     const config = {
@@ -27,7 +25,7 @@ function outside_req(host, method, endpoint, content) {
 module.exports.say_hi = {
     run: (data) => {
         let ret = {}; // intialize return object
-        ret.content = "Hello World!";
+        ret.content = "Hello "+data+"!";
         return ret; // return final object
     },
     info: {
