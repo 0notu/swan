@@ -4,7 +4,7 @@ const api = require('./api.js');
 const net = require('./net.js');
 const data = require('./data.js');
 //const s = require("Swan").Server
-module.exports.Server = class {
+module.exports.swanServer = class {
   constructor (port, server) {
     this.server = http.createServer((req, res) => this.handle(req, res));
     this.server.listen(secret.port)
