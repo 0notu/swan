@@ -1,13 +1,13 @@
 const http = require('http');
 
-const api = require('./api.js');
 const net = require('./net.js');
 const data = require('./data.js');
 //const s = require("Swan").Server
 module.exports.swanServer = class {
-  constructor (port, server) {
+  constructor (api, port = 80) {
+    this.api = api;
     this.server = http.createServer((req, res) => this.handle(req, res));
-    this.server.listen(secret.port)
+    this.server.listen(port);
   }
 
   async serve(res, url) {
@@ -23,6 +23,7 @@ module.exports.swanServer = class {
   }
   async externalAPI(content, endpoint="", method="POST", ) {
     return await new Promise((resolve, reject) => {
+      //console.log(content)
       http.request({
         hostname: this.api.host,
         port: this.api.port,
@@ -30,15 +31,16 @@ module.exports.swanServer = class {
         method: method,
         headers: {'Content-Type': 'application/json'}
         },
-        (res) => resolve(await net.collect(res))
-        ).end(content);    
+        async (res) => resolve(await (net.collect(res)))
+        ).end(content);
     })
   }
   async handle(req, res) {
     let data = req.url.split("/");
     if (data[1] == "api") { // proxying api requests through webserver
-      net.collect(req).then((content) => {
-        res.send(await (api.duck ? this.api.apiHandle(JSON.parse(content)) : this.externalAPI(res, content)))
+      net.collect(req).then(async (content) => {
+        let output = this.api.duck ? JSON.stringify(await this.api.apiHandle(JSON.parse(content))) : await this.externalAPI(content)
+        res.end(output)
       })
     } else {
       this.net.set(req).then((url) => {

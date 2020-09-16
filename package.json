@@ -1,0 +1,30 @@
+{
+  "name": "swan",
+  "version": "0.1.0",
+  "description": "Simple and elegant HTTP server framework",
+  "main": "src/core.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "node src/core.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/0notu/swan.git"
+  },
+  "keywords": [
+    "swan",
+    "fowl",
+    "api",
+    "web",
+    "webserver",
+    "server"
+  ],
+  "author": "notU + LaughableStack",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/0notu/swan/issues"
+  },
+  "homepage": "https://github.com/0notu/swan#readme"
+}
