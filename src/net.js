@@ -2,9 +2,9 @@ module.exports = {
     collect: (req) => {
 		  return new Promise((resolve, reject) => {
 			  let buffer = "";
-			  req.on('data', (chunk) => {buffer+=chunk})
-			  req.on('error', (err) => reject(err))
-			  req.on('end', () => {resolve(JSON.parse(buffer))})
+			  req.on('data', chunk => buffer+=chunk)
+			  req.on('error', err => reject(err))
+			  req.on('end', () => resolve(buffer))
 		  })
     },
 

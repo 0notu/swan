@@ -1,23 +1,5 @@
 const fs = require('fs');
-
-let data_types = {
-    "html": "text/html",
-    "js": "text/javascript",
-    "css": "text/css",
-    "json": "application/json",
-    "png": "image/png",
-    "ico": "image/png",
-    "jpg": "image/jpg",
-    "gif": "image/gi",
-    "svg": "image/svg+xml",
-    "wav": "audio/wav",
-    "mp4": "video/mp4",
-    "woff": "application/font-woff",
-    "ttf": "application/font-ttf",
-    "eot": "application/vnd.ms-fontobject",
-    "otf": "application/font-otf",
-    "wasm": "application/wasm"
-};
+const data_types = require("./data_types.json")
 
 module.exports = {
     /**
