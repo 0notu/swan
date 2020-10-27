@@ -21,28 +21,16 @@ module.exports = class {
         res.end(c.file)
       }
     }
-    async externalAPI(content, endpoint="", method="POST", ) {
-      return await new Promise((resolve, reject) => {
-        //console.log(content)
-        http.request({
-          hostname: this.api.host,
-          port: this.api.port,
-          path: "/"+endpoint,
-          method: method,
-          headers: {'Content-Type': 'application/json'}
-          },
-          async (res) => resolve(await (net.collect(res)))
-          ).end(content);
-      })
-    }
+    
     async handle(req, res) {
       let data = req.url.split("/");
       if (data[1] == "api") { // proxying api requests through webserver
         net.collect(req).then(async (content) => {
           let output;
           try {
+            if (this.Duck)
             output = JSON.stringify(
-              await this.api.endpoints[req.endpoint](content)
+              await this.api[req.endpoint](content)
             )
           } catch (e) {
             console.log("[!] ",e)

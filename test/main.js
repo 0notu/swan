@@ -2,7 +2,7 @@ let Swan = require('../src/core.js')
 
 var test_obj = {
     "Server": () => {
-        new Swan.Server(Swan.Duck, 1336);
+        new Swan.Server(1336);
     }
 }
 
