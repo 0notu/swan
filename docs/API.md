@@ -1,12 +1,50 @@
 ## API
 
-Swan supports using Duck, a pre-written rate-limiter and organizational tool, but if you live on the edge, Swan allows you to write your own api.
+Swan includes Duck, a heavily customizable API server sub-framework, but if you live on the edge Swan also allows you to write your own api. 
 
-##### Basics
-API endpoints are structured as such; the API object that is passed contains **Function** endpoints.
+##### Duck
+
+Here's an example of a Duck server:
+```js
+let tokenAPI = async (context, token) => {
+    //context is an object that all of your endpoints can access
+    //token is an auth object/string/emaciated mongoose that you can use to give a user-specific API set
+    let user;
+    if (token=="notU" || token=="LaughableStack") {
+        user = {level: 100}
+    } else {
+        user = {level: 100}
+    }
+    return {
+        //Make sure your endpoints are async
+        "levelDifference": async (content) => {
+            return Math.abs(user.level - content.targetLevel)
+        }
+    }
+}
+let anonAPI = async(context) => {
+    //The anonAPI doesn't require a token, so requests lacking one will be sent to it. You can still do initialization that's necessary for all endpoints.
+    return {
+        "exponentiation": async (content) => {
+            return Math.pow(content.value1, content.value2)
+        }
+    }
+}
+let duckAPI = swan.API(
+tokenAPI, 
+anonAPI, 
+port = -1, //Set port to -1 to disable hosting.
+)
+//There are other parameters we can set, but they're more niche.
+//To use it with a Swan web server:
+swan.Web(duckAPI)
+```
+
+##### Custom
+API endpoints are structured like so: the API object that is passed contains **Function** endpoints. These functions *must* be async.
 ```js
 {
-    "square": (content) => {
+    "square": async (content) => {
         return content.number*content.number
     }
 }
@@ -17,20 +55,11 @@ Because you control the client's request, content will be specific to your needs
 
 
 ##### Connecting to external APIs
-Connecting to external APIs may seem duanting, so we've attached a sample function to do just that. This isn't native to Swan, but is possible to add to your API file.
-
+Connecting to external APIs can seem daunting, so we've included integrated support. You can pass a set of parameters as the API object to connect with remote Duck servers across the internet. Here's the format:
 ```js
-async externalAPI(content, endpoint="", method="POST", ) {
-    return await new Promise((resolve, reject) => {
-        http.request({
-            hostname: api.host,
-            port: api.port,
-            path: "/"+endpoint,
-            method: method,
-            headers: {'Content-Type': 'application/json'}
-        },
-            async (res) => resolve(await (net.collect(res)))
-        ).end(content);
-    })
+{
+    web: true,
+    hostname: "<HOST>",
+    port: <PORT>
 }
 ```

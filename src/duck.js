@@ -36,7 +36,7 @@ module.exports = class {
         res.end(JSON.stringify(result))
     }
     async apiHandle(data) {
-        let activeAPI = data.token ? await this.userAPI(this.context, data.token) : this.anonAPI(this.context);
+        let activeAPI = data.token ? await this.tokenAPI(this.context, data.token) : this.anonAPI(this.context);
         return await activeAPI[data.method](data.content);
     }
 }

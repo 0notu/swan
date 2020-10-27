@@ -1,5 +1,3 @@
-const http = require('http');
-
 const net = require('./net.js');
 const data = require('./data.js');
 
@@ -21,17 +19,30 @@ module.exports = class {
         res.end(c.file)
       }
     }
-    
+  
+    async externalAPI(reqString, endpoint="", method="POST", ) {
+      return await new Promise((resolve, reject) => {
+          http.request({
+              hostname: this.api.hostname,
+              port: this.api.port,
+              path: "/"+endpoint,
+              method: method,
+              headers: {'Content-Type': 'application/json'}
+          },
+              async (res) => resolve(await (net.collect(res)))
+          ).end(reqString);
+      })
+  }
+  
     async handle(req, res) {
       let data = req.url.split("/");
-      if (data[1] == "api") { // proxying api requests through webserver
-        net.collect(req).then(async (content) => {
+      if (data[1] == "api") { // proxying api requests through various sorts of webservers
+        net.collect(req).then(async (reqObj) => {
           let output;
           try {
-            if (this.Duck)
-            output = JSON.stringify(
-              await this.api[req.endpoint](content)
-            )
+            if (this.api.duck) output = JSON.stringify(await this.api.apiHandle(reqObj)) //local duck server
+            else if (this.api.web) output = await this.externalAPI(JSON.stringify(reqObj)) //external server
+            else output = JSON.stringify(await this.api[reqObj.method](reqObj.content)) //local custom server
           } catch (e) {
             console.log("[!] ",e)
             output = 401
