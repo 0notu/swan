@@ -1,9 +1,13 @@
 const http = require('http');
+const path = require('path');
 
-const net = require('./net.js');
-const data = require('./data.js');
+const net = require(path.resolve('./src/net.js'));
+const data = require(path.resolve('./src/data.js'));
+
+module.exports.Duck = require(path.resolve('./src/duck.js'))
 module.exports.Server = class {
-  constructor (api, port = 80) {
+  constructor (api, port = 80, pages_file) {
+    this.pages_file = pages_file;
     this.api = api;
     this.server = http.createServer((req, res) => this.handle(req, res));
     this.server.listen(port);
@@ -42,7 +46,7 @@ module.exports.Server = class {
         res.end(output)
       })
     } else {
-      this.net.set(req).then((url) => {
+      net.set(req).then((url) => {
         this.serve(res, url)
       })
     }
