@@ -2,8 +2,7 @@ const http = require('http');
 
 const net = require('./net.js');
 const data = require('./data.js');
-//const s = require("Swan").Server
-module.exports.swanServer = class {
+module.exports.Server = class {
   constructor (api, port = 80) {
     this.api = api;
     this.server = http.createServer((req, res) => this.handle(req, res));
@@ -39,7 +38,7 @@ module.exports.swanServer = class {
     let data = req.url.split("/");
     if (data[1] == "api") { // proxying api requests through webserver
       net.collect(req).then(async (content) => {
-        let output = this.api.duck ? JSON.stringify(await this.api.apiHandle(JSON.parse(content))) : await this.externalAPI(content)
+        let output = this.api[req.endpoint] ? JSON.stringify(await this.api.handle(content)) : res.end(404)
         res.end(output)
       })
     } else {

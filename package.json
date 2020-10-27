@@ -1,5 +1,5 @@
 {
-  "name": "swan",
+  "name": "swan.js",
   "version": "0.1.0",
   "description": "Simple and elegant HTTP server framework",
   "main": "src/core.js",
