@@ -1,6 +1,4 @@
-const path = require('path');
-console.log(path.resolve('./src/core.js'))
-let Swan = require(path.resolve('./src/core.js'))
+let Swan = require('../src/core.js')
 
 var test_obj = {
     "Server": () => {

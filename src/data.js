@@ -1,6 +1,6 @@
-const path = require('path');
+
 const fs = require('fs');
-const data_types = require(path.resolve('./src/data_types.json'))
+const data_types = require('./data_types.json')
 
 module.exports = {
     /**

@@ -1,10 +1,9 @@
 const http = require('http');
-const path = require('path');
 
-const net = require(path.resolve('./src/net.js'));
-const data = require(path.resolve('./src/data.js'));
+const net = require('./net.js');
+const data = require('./data.js');
 
-module.exports.Duck = require(path.resolve('./src/duck.js'))
+module.exports.Duck = require('./duck.js')
 module.exports.Server = class {
   constructor (api, port = 80, pages_file) {
     this.pages_file = pages_file;
