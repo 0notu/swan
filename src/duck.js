@@ -1,7 +1,6 @@
 const http = import ('http');
 
 const net = import ('./net.js');
-const data = import ('./data.js');
 
 module.exports = class {
     constructor(
