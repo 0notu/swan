@@ -23,7 +23,8 @@ let tokenAPI = async (context, token) => {
     }
 }
 let anonAPI = async(context) => {
-    //The anonAPI doesn't require a token, so requests lacking one will be sent to it. You can still do initialization that's necessary for all endpoints.
+    //The anonAPI doesn't require a token, so requests lacking one will be sent to it.
+    // You can still do initialization that's necessary for all endpoints.
     return {
         "exponentiation": async (content) => {
             return Math.pow(content.value1, content.value2)
