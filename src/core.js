@@ -5,8 +5,7 @@ const data = require('./data.js');
 
 module.exports.Duck = require('./duck.js')
 module.exports.Server = class {
-  constructor (api, port = 80, pages_file) {
-    this.pages_file = pages_file;
+  constructor (api = null, port = 80) {
     this.api = api;
     this.server = http.createServer((req, res) => this.handle(req, res));
     this.server.listen(port);
@@ -41,7 +40,15 @@ module.exports.Server = class {
     let data = req.url.split("/");
     if (data[1] == "api") { // proxying api requests through webserver
       net.collect(req).then(async (content) => {
-        let output = this.api[req.endpoint] ? JSON.stringify(await this.api.handle(content)) : res.end(404)
+        let output;
+        try {
+          output = JSON.stringify(
+            await this.api.endpoints[req.endpoint](content)
+          )
+        } catch (e) {
+          console.log("[!] ",e)
+          output = 401
+        }
         res.end(output)
       })
     } else {
