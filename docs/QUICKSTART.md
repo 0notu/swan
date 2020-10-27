@@ -1,5 +1,10 @@
 ## Quick Start
 
+Install swan via npm;
+```js
+npm i swan.js
+```
+
 First, require Swan in your project;
 ```js
 const swan = require('swan.js');
