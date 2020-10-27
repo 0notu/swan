@@ -1,7 +1,7 @@
 ## Quick Start
 
 Install swan via npm;
-```js
+```
 npm i swan.js
 ```
 
