@@ -1,10 +1,10 @@
 ## API
 
-Swan includes Duck, a heavily customizable API server sub-framework, but if you live on the edge Swan also allows you to write your own api. 
+Swan includes a heavily customizable API server sub-framework, but if you live on the edge Swan also allows you to set up an API without automatic token features or its own port. You can also set up Swan API servers without a web server.
 
-##### Duck
+##### API Framework
 
-Here's an example of a Duck server:
+Here's an example of a Swan API server:
 ```js
 let tokenAPI = async (context, token) => {
     //context is an object that all of your endpoints can access
@@ -31,17 +31,17 @@ let anonAPI = async(context) => {
         }
     }
 }
-let duckAPI = swan.API(
+let APIServer = swan.API(
 tokenAPI, 
 anonAPI, 
 port = -1, //Set port to -1 to disable hosting.
 )
 //There are other parameters we can set, but they're more niche.
 //To use it with a Swan web server:
-swan.Web(duckAPI)
+swan.Server(duckAPI)
 ```
 
-##### Custom
+##### Raw-Object API
 API endpoints are structured like so: the API object that is passed contains **Function** endpoints. These functions *must* be async.
 ```js
 {
@@ -64,3 +64,4 @@ Connecting to external APIs can seem daunting, so we've included integrated supp
     port: <PORT>
 }
 ```
+The Swan Webserver will simply relay any JSON requests sent to it.
