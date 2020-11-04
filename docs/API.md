@@ -13,7 +13,7 @@ let tokenAPI = async (context, token) => {
     if (token=="notU" || token=="LaughableStack") {
         user = {level: 100}
     } else {
-        user = {level: 100}
+        user = {level: 1}
     }
     return {
         //Make sure your endpoints are async
