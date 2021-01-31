@@ -1,12 +1,12 @@
-const http = import ('http');
+const http = require('http');
 
-const net = import ('./net.js');
+const net = require('./net.js');
 
 module.exports = class {
     constructor(
         tokenAPI, 
         anonAPI, 
-        port = 3735, 
+        port, 
         context = {}, 
         watchdog = req => Object({accepted: true}),
         errorProcessor = error => error
@@ -35,6 +35,7 @@ module.exports = class {
         let result = await this.apiHandle(jsonReq)
         res.end(JSON.stringify(result))
     }
+    
     async apiHandle(data) {
         let activeAPI = data.token ? await this.tokenAPI(this.context, data.token) : this.anonAPI(this.context);
         return await activeAPI[data.method](data.content);

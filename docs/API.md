@@ -31,14 +31,14 @@ let anonAPI = async(context) => {
         }
     }
 }
-let APIServer = swan.API(
+let APIServer = new swan.API(
 tokenAPI, 
 anonAPI, 
 port = -1, //Set port to -1 to disable hosting.
 )
 //There are other parameters we can set, but they're more niche.
 //To use it with a Swan web server:
-swan.Server(duckAPI)
+webServer = new swan.Server(duckAPI)
 ```
 
 ##### Raw-Object API
