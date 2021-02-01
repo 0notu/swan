@@ -33,11 +33,11 @@ module.exports = class {
         if (!report.accepted) return res.send(report.error);
         let jsonReq = await net.collect(req)
         let result = await this.apiHandle(jsonReq)
-        res.end((typeof result === 'object' && result !== null) ? JSON.stringify(result) : result)
+        res.end((typeof result === 'object' && result !== null) ? JSON.stringify(result) : result.toString())
     }
 
     async apiHandle(data) {
-        let activeAPI = data.token ? await this.tokenAPI(this.context, data.token) : this.anonAPI(this.context);
+        let activeAPI = data.token ? await this.tokenAPI(this.context, data.token) : await this.anonAPI(this.context);
         return await activeAPI[data.method](data.content);
     }
 }
